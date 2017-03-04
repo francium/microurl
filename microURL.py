@@ -2,6 +2,7 @@ from flask import abort, Flask, redirect, render_template, request, url_for
 
 import random
 import string
+import sys
 
 
 #CONSTANTS#####################################################################
@@ -13,8 +14,7 @@ LETTERS_DIGITS = string.ascii_letters + string.digits   # Letters to choose
 
 
 #THE DATABASE##################################################################
-url_registry = {}   # It's for demonstration purposes only.
-                    # It's not really a database, but it does the same thing.
+DB = 'url_registry.txt' # It's not a real DB... for now.
 
 
 #FLASK#########################################################################
@@ -35,7 +35,7 @@ def route_all():
         All registered micros page handler.
     '''
     # Render the 'all' template with the url_registry (database of all micros).
-    return render_template('all.html', registry=url_registry)
+    return render_template('all.html', registry=read_all())
 
 
 @app.route('/generate_micro', methods=['POST'])
@@ -48,9 +48,9 @@ def route_generate_micro():
     register_micro(micro, url)  # Store the micro and URL in the database.
 
     # Render micro template with the micro and full URL of the micro.
-    # FIXME Hardcoded server name.
+    # FIXME server name in micro_url.
     return render_template('micro.html', micro=micro,
-          full_micro_url='localhost:5000/{}'.format(micro))
+          micro_url='{}'.format(micro))
 
 
 @app.route('/<micro>')
@@ -60,10 +60,11 @@ def route_micro(micro):
     '''
     try:
         # If micro is registered, redirect to the associated URL.
-        return redirect('http://' + lookup_micro(micro))
-    except:
+        return redirect('http://' + lookup_micro(micro).strip())
+    except Exception as e:
         # If micro is not registered, handle the exception from trying to look
         # it up and raise a 404 HTTP error.
+        sys.stderr.write(str(e))
         abort(404)
 
 
@@ -87,11 +88,49 @@ def lookup_micro(micro):
     '''
         Returns micro's associated url.
     '''
-    return url_registry[micro]
+    try:
+        return read_data(micro)
+    except Exception as e:
+        raise e
 
 
 def register_micro(micro, url):
     '''
         Stores a micro and URL pair in the database.
     '''
-    url_registry[micro] = url
+    write_data(micro + '=' + url)
+
+
+def read_all():
+    '''
+        Read all data from DB and return as dict.
+    '''
+    all_data = {}
+    with open(DB, 'r') as db:
+        for ln in db:
+            split_index = ln.find('=')
+            all_data[ln[: split_index]] = ln[split_index + 1 :]
+
+    return all_data
+
+
+def read_data(query):
+    '''
+        Search for and return a query in the DB.
+    '''
+    with open(DB, 'r') as db:
+        for ln in db:
+            if query in ln:
+                split_index = ln.find('=')
+                return ln[split_index + 1 :]
+
+        raise Exception('Query, "{}" not found.'.format(query))
+
+
+
+def write_data(data):
+    '''
+        Append data to the DB
+    '''
+    with open(DB, 'a') as db:
+        db.write(data + '\n')
