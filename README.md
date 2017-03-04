@@ -6,7 +6,7 @@ Required
 
 Use
 ---
-Note these are \*nix instructions, usage windows may be different. Using a
+Note these are \*nix instructions, usage on Windows may be different. Using a
 \*nix system is *highly* recommended to avoid any undue frustration.
 
     $ FLASK_APP=urlshort.py flask run
