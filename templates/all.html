@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>&microURL - micro url</title>
+
+  <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body>
+  <center>
+  <div>
+    <a href='/'>INDEX</a>
+    &#8226;
+    <a href='/all'>ALL MICROS</a>
+  </div>
+  <br>
+  <div>
+    <ul>
+    {% for micro, url in registry.items() %}
+      <li>
+        {{ url }} --&gt <a href="/{{ micro }}">{{ micro }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+  </center>
+</body>
+
+</html>
