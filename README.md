@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/francium/microURL/badges/gpa.svg)](https://codeclimate.com/github/francium/microURL)
+
 Required
 --------
 
