@@ -83,7 +83,6 @@ def generate_micro():
     '''
         Generates a random MICRO_LEN length ASCII code.
     '''
-    return ''.join(random.choices(LETTERS_DIGITS, k=MICRO_LEN))
     return random_miro.random(3)
 
 
