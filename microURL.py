@@ -1,8 +1,10 @@
-from flask import abort, Flask, redirect, render_template, request, url_for
-
+import os
 import random
 import string
 import sys
+
+from flask import abort, Flask, redirect, render_template, request, url_for,\
+                  send_from_directory
 
 import random_micro
 
@@ -76,6 +78,12 @@ def route_404(error):
         Generate a 404 page.
     '''
     return 'invalid url'
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico')
 
 
 #BUSINESS LOGIC################################################################
