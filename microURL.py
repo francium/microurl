@@ -92,7 +92,7 @@ def lookup_micro(micro):
     '''
     try:
         return read_data(micro)
-    except Exception as e:
+    except KeyError as e:
         raise e
 
 
@@ -108,26 +108,33 @@ def read_all():
         Read all data from DB and return as dict.
     '''
     all_data = {}
-    with open(DB, 'r') as db:
-        for ln in db:
-            split_index = ln.find('=')
-            all_data[ln[: split_index]] = ln[split_index + 1 :]
+    try:
+        with open(DB, 'r') as db:
+            for ln in db:
+                split_index = ln.find('=')
+                all_data[ln[: split_index]] = ln[split_index + 1 :]
+    except FileNotFoundError as fnfe:
+        with open(DB, 'w'):
+            pass
 
     return all_data
 
 
 def read_data(query):
     '''
-        Search for and return a query in the DB.
+        Search for and return a query in the DB otherwise raise Exception.
     '''
-    with open(DB, 'r') as db:
-        for ln in db:
-            if query in ln:
-                split_index = ln.find('=')
-                return ln[split_index + 1 :]
+    try:
+        with open(DB, 'r') as db:
+            for ln in db:
+                if query in ln:
+                    split_index = ln.find('=')
+                    return ln[split_index + 1 :]
+    except FileNotFoundError as fnfe:
+        with open(DB, 'w'):
+            pass
 
-        raise Exception('Query, "{}" not found.'.format(query))
-
+    raise KeyError('Query, "{}" not found.'.format(query))
 
 
 def write_data(data):
