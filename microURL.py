@@ -133,7 +133,7 @@ def read_all():
         with open(DB, 'w'):
             pass
 
-    return all_data
+    return all_data if len(all_data) else {'': 'nothing here -'}
 
 
 def read_data(query):
