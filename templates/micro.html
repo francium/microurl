@@ -3,23 +3,55 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <title>&microURL - micro url</title>
+  <title>&microURL - all</title>
+
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/bootstrap/jumbotron-narrow.css') }}">
+  <script async
+    href="{{ url_for('static', filename='vendor/bootstrap/bootstrap.min.js') }}">
+  </script>
+
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-  <center>
-  <div>
-    <a href='/'>INDEX</a>
-    &#8226;
-    <a href='/all'>ALL MICROS</a>
+
+  <div class="container">
+
+    <div class="header">
+      <h1><a href="/">&microURL</a></h1>
+    </div>
+
+
+    <div class="jumbotron">
+      <p><a href="/{{ micro }}">{{ micro_url }}</a></p>
+    </div>
+
+    <div class="header">
+      <nav>
+        <ul class="nav nav-pills pull-right">
+          <li role="presentation"><h3><a href="/all">all micros</a></h3></li>
+          <li role="presentation"><h3><a href="/about">about</a></h3></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="navbar-fixed-bottom text-center">
+      <div class="footer">
+        by francium | <a href="https://github.com/francium/microURL">fork me on github</a>
+      </div>
+    </div>
+
   </div>
-  <br>
-  <div>
-    <a href="/{{ micro }}">{{ micro_url }}</a>
-  </div>
-  </center>
+
 </body>
 
 </html>

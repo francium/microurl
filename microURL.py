@@ -33,6 +33,14 @@ def route_index():
     return render_template('index.html')
 
 
+@app.route('/about')
+def route_about():
+    '''
+        About page handler.
+    '''
+    return render_template('about.html')
+
+
 @app.route('/all')
 def route_all():
     '''

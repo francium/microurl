@@ -3,10 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <title>&microURL - all</title>
+  <title>&microURL - about</title>
 
   <link rel="stylesheet"
     href="{{ url_for('static', filename='vendor/bootstrap/bootstrap.min.css') }}">
@@ -31,12 +30,10 @@
     </div>
 
 
-    <div class="jumbotron">
-        {% for micro, url in registry.items() %}
-        <p>
-          <a href="/{{ micro }}">{{ micro }}</a> - {{ url }}
-        </p>
-        {% endfor %}
+    <div class="jumbotron jumbotron-light">
+      <p>
+        A open source URL shortener written in Python and Flask.
+      </p>
     </div>
 
     <div class="header">
