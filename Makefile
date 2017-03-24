@@ -7,6 +7,9 @@ PORT_DPLY=80
 
 default:
 
+init:
+	pip install -r requirements.txt
+
 debug:
 	#gunicorn -w 4 -b localhost:5000 -k gevent microURL:app
 	FLASK_APP=microURL.py FLASK_DEBUG=1 flask run
