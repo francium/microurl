@@ -3,6 +3,7 @@ import random
 import string
 import sys
 
+from validators import url as urlcheck
 from flask import abort, Flask, redirect, render_template, request, url_for,\
                   send_from_directory
 
@@ -67,9 +68,14 @@ def route_micro(micro):
     '''
         Micro to real URL redirection handler.
     '''
+
+    temp = lookup_micro(micro).strip()
+
     try:
-        # If micro is registered, redirect to the associated URL.
-        return redirect('http://' + lookup_micro(micro).strip())
+        if urlcheck(temp):
+            return redirect(temp)
+        else:
+            abort(404)
     except Exception as e:
         # If micro is not registered, handle the exception from trying to look
         # it up and raise a 404 HTTP error.
