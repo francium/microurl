@@ -4,6 +4,8 @@ import string
 import sys
 
 from validators import url as urlcheck
+from validators import domain as domaincheck
+from validators import ipv4 as ipcheck
 from flask import abort, Flask, redirect, render_template, request, url_for,\
                   send_from_directory
 
@@ -75,6 +77,10 @@ def route_micro(micro):
 
         if urlcheck(temp):
             return redirect(temp)
+        elif domaincheck(temp):
+            return redirect("http://" + temp)
+        elif ipcheck(temp.split(':')[0]):
+            return redirect("http://" + temp)
         else:
             abort(404)
 
