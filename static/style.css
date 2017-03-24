@@ -108,6 +108,21 @@ a, a:visited, a:hover {
   border-bottom-left-radius: 0px;
 }
 
+#micro-display {
+  height: 18px;
+
+  padding-top: 2em;
+
+  font-size: 18px !important;
+}
+
+#display-loader {
+  height: 100%;
+}
+
+.hidden {
+  display: none;
+}
 
 .footer {
   padding-bottom: 3em;

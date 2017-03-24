@@ -59,10 +59,7 @@ def route_generate_micro():
     micro = generate_micro()    # Generate a random micro.
     register_micro(micro, url)  # Store the micro and URL in the database.
 
-    # Render micro template with the micro and full URL of the micro.
-    # FIXME server name in micro_url.
-    return render_template('micro.html', micro=micro,
-          micro_url='{}'.format(micro))
+    return micro
 
 
 @app.route('/<micro>')

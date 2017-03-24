@@ -18,6 +18,9 @@
   <link rel="stylesheet"
     href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}">
 
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/spinkit/spinner.css') }}">
+
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
@@ -49,6 +52,9 @@
     </div>
 
   </div>
+
+  {% block foot %}
+  {% endblock %}
 
 </body>
 
