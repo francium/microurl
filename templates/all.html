@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="header">
-    <nav>
-      <ul class="nav nav-pills pull-right">
-        <li role="presentation"><h3><a href="/all">all micros</a></h3></li>
-        <li role="presentation"><h3><a href="/about">about</a></h3></li>
-      </ul>
-    </nav>
+  <div class="jumbotron">
+      {% for micro, url in registry.items() %}
+      <p>
+        <a href="/{{ micro }}">{{ micro }}</a> - {{ url }}
+      </p>
+      {% endfor %}
   </div>
 {% endblock %}
