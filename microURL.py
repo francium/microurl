@@ -79,7 +79,8 @@ def route_micro(micro):
             return redirect(temp)
         elif domaincheck(temp):
             return redirect("http://" + temp)
-        elif ipcheck(temp.split(':')[0]):
+        elif ipcheck(temp.split(':')[0]) and urlcheck('http://' + temp):
+            # checks for plain ip or an ip with something after it
             return redirect("http://" + temp)
         else:
             abort(404)
