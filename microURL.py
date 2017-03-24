@@ -69,13 +69,15 @@ def route_micro(micro):
         Micro to real URL redirection handler.
     '''
 
-    temp = lookup_micro(micro).strip()
 
     try:
+        temp = lookup_micro(micro).strip()
+
         if urlcheck(temp):
             return redirect(temp)
         else:
             abort(404)
+
     except Exception as e:
         # If micro is not registered, handle the exception from trying to look
         # it up and raise a 404 HTTP error.
