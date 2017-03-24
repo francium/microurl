@@ -2,9 +2,15 @@ import os
 import random
 import string
 import sys
+import time
 
+from validators import url as urlcheck
+from validators import domain as domaincheck
+from validators import ipv4 as ipcheck
 from flask import abort, Flask, redirect, render_template, request, url_for,\
                   send_from_directory
+
+from blitzdb import FileBackend, Document
 
 import random_micro
 
@@ -16,14 +22,15 @@ LETTERS_DIGITS = string.ascii_letters + string.digits   # Letters to choose
                                                         # from when generating
                                                         # the micro URL.
 
-
 #THE DATABASE##################################################################
-DB = 'url_registry.txt' # It's not a real DB... for now.
 
+backend = FileBackend("url-db")
+
+class urlDoc(Document):
+    pass
 
 #FLASK#########################################################################
 app = Flask(__name__)   # Instantiate a flask app.
-
 
 @app.route('/')
 def route_index():
@@ -67,9 +74,21 @@ def route_micro(micro):
     '''
         Micro to real URL redirection handler.
     '''
+
+
     try:
-        # If micro is registered, redirect to the associated URL.
-        return redirect('http://' + lookup_micro(micro).strip())
+        temp = lookup_micro(micro)
+
+        if urlcheck(temp):
+            return redirect(temp)
+        elif domaincheck(temp):
+            return redirect("http://" + temp)
+        elif ipcheck(temp.split(':')[0]) and urlcheck('http://' + temp):
+            # checks for plain ip or an ip with something after it
+            return redirect("http://" + temp)
+        else:
+            abort(404)
+
     except Exception as e:
         # If micro is not registered, handle the exception from trying to look
         # it up and raise a 404 HTTP error.
@@ -113,46 +132,31 @@ def register_micro(micro, url):
     '''
         Stores a micro and URL pair in the database.
     '''
-    write_data(micro + '=' + url)
-
+    backend.save(urlDoc({
+                        'type': 'url',
+                        'timestamp': time.time(),
+                        'micro': micro,
+                        'url': url}))
+    backend.commit()
 
 def read_all():
     '''
         Read all data from DB and return as dict.
     '''
-    all_data = {}
     try:
-        with open(DB, 'r') as db:
-            for ln in db:
-                split_index = ln.find('=')
-                all_data[ln[: split_index]] = ln[split_index + 1 :]
-    except FileNotFoundError as fnfe:
-        with open(DB, 'w'):
-            pass
+        docs = backend.filter(urlDoc, {'type' : 'url'})
+    except docs.DoesNotExist:
+        return {'': 'nothing here'}
 
-    return all_data if len(all_data) else {'': 'nothing here -'}
-
+    return {doc.micro : doc.url for doc in docs}
 
 def read_data(query):
     '''
         Search for and return a query in the DB otherwise raise Exception.
     '''
     try:
-        with open(DB, 'r') as db:
-            for ln in db:
-                if query in ln:
-                    split_index = ln.find('=')
-                    return ln[split_index + 1 :]
-    except FileNotFoundError as fnfe:
-        with open(DB, 'w'):
-            pass
+        doc = backend.get(urlDoc, {'micro' : query})
+        return doc.url
+    except doc.DoesNotExist:
+        raise KeyError('Query, "{}" not found.'.format(query))
 
-    raise KeyError('Query, "{}" not found.'.format(query))
-
-
-def write_data(data):
-    '''
-        Append data to the DB
-    '''
-    with open(DB, 'a') as db:
-        db.write(data + '\n')
