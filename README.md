@@ -5,9 +5,8 @@ Required
 Note some requirements in `requirements.txt` are for Heroku only. Below are the
 actual requirements for running the application locally.
 
+- python3-dev libmysqlclient-dev
 - Python 3 (Python 2 untested)
-- Flask
-- Requests
 
 Use
 ---

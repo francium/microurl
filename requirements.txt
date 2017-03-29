@@ -3,4 +3,4 @@ gevent
 gunicorn
 requests
 validators
-blitzdb
+mysqlclient
