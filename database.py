@@ -7,7 +7,7 @@ class DB_Interface:
     def __init__(self):
         try:
             self.passwd = parse_passwd()
-        except FileNotFoundException as fnfe:
+        except FileNotFoundError as fnfe:
             pass # FIXME Fail object creation (override __new__)
 
     def __enter__(self):
