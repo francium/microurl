@@ -14,13 +14,6 @@ import database
 import random_micro
 
 
-#CONSTANTS#####################################################################
-MICRO_LEN = 6   # The length of the shortened URL (micro URL).
-
-LETTERS_DIGITS = string.ascii_letters + string.digits   # Letters to choose
-                                                        # from when generating
-                                                        # the micro URL.
-
 #FLASK#########################################################################
 app = Flask(__name__)   # Instantiate a flask app.
 
