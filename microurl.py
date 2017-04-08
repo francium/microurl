@@ -36,13 +36,12 @@ def route_about():
     return render_template('about.html')
 
 
-@app.route('/all')
-def route_all():
+@app.route('/top')
+def route_top():
     '''
         All registered micros page handler.
     '''
-    # Render the 'all' template with the url_registry (database of all micros).
-    return render_template('all.html', registry=read_all())
+    return render_template('top.html', registry=read_top())
 
 
 @app.route('/generate_micro', methods=['POST'])
@@ -52,7 +51,8 @@ def route_generate_micro():
     '''
     url = request.form['url']   # Get the 'url' value from the request.
     micro = generate_micro()    # Generate a random micro.
-    register_micro(micro, url)  # Store the micro and URL in the database.
+    print(request.form['public'])
+    register_micro(micro, url, public)  # Store the micro and URL in the database.
 
     return micro
 
@@ -113,7 +113,7 @@ def lookup_micro(micro):
         raise e
 
 
-def register_micro(micro, url):
+def register_micro(micro, url, public):
     '''
         Stores a micro and URL pair in the database.
     '''
@@ -121,15 +121,15 @@ def register_micro(micro, url):
 
     with db:
         tnow = int(time.time())
-        rc = db.insert(micro, url, tnow, tnow + DAY_SECS)
+        rc = db.insert(micro, url, tnow, tnow + DAY_SECS, public)
 
 
-def read_all():
+def read_top():
     '''
         Read all data from DB and return as dict.
     '''
     with db:
-        data = db.get_all()
+        data = db.get_top()
 
     if not(data):
         return {'': 'nothing here'}

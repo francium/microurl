@@ -4,3 +4,4 @@ gunicorn
 requests
 validators
 mysqlclient
+pycrypto
