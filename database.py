@@ -40,6 +40,7 @@ class DB_Interface:
     def clear(self):
         sql = 'delete from Micros'
         rc = self.cur.execute(sql)
+        self.db.commit()
         return rc
 
     def insert(self, micro, url, creation, expiration, public):
@@ -95,7 +96,6 @@ def clear_database():
             db.clear()
 
         print('Database cleared.')
-
 
 if __name__ == '__main__':
     if (len(sys.argv) > 1):

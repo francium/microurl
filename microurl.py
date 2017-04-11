@@ -49,10 +49,11 @@ def route_generate_micro():
     '''
         Generate micro POST request handler.
     '''
-    url = request.form['url']   # Get the 'url' value from the request.
-    micro = generate_micro()    # Generate a random micro.
-    print(request.form['public'])
-    register_micro(micro, url, public)  # Store the micro and URL in the database.
+    data = parse_form_data(request.form)
+    micro = generate_micro()
+
+    # Store the micro and URL in the database.
+    register_micro(micro, data['url'], data['public'])
 
     return micro
 
@@ -96,6 +97,21 @@ def favicon():
 
 
 #BUSINESS LOGIC################################################################
+def parse_form_data(form_data):
+    '''
+        Get form_data as a dict.
+    '''
+    try:
+        if form_data['public'] == 'on':
+            public = True
+    except KeyError:
+        public = False
+
+    url = form_data['url']
+
+    return {'url': url, 'public': public}
+
+
 def generate_micro():
     '''
         Generates a random MICRO_LEN length ASCII code.
