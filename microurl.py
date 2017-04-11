@@ -43,6 +43,13 @@ def route_top():
     '''
     return render_template('top.html', registry=read_top())
 
+@app.route('/recent')
+def route_recent():
+    '''
+        All registered micros page handler.
+    '''
+    return render_template('recent.html', registry=read_recent())
+
 
 @app.route('/generate_micro', methods=['POST'])
 def route_generate_micro():
@@ -124,7 +131,9 @@ def lookup_micro(micro):
         Returns micro's associated url.
     '''
     try:
-        return read_data(micro)
+        data = read_data(micro)
+        increment_hit(micro)
+        return data
     except KeyError as e:
         raise e
 
@@ -153,6 +162,19 @@ def read_top():
         return {d[1] : d[2] for d in data}
 
 
+def read_recent():
+    '''
+        Read all data from DB and return as dict.
+    '''
+    with db:
+        data = db.get_recent()
+
+    if not(data):
+        return {'': 'nothing here'}
+    else:
+        return {d[1] : d[2] for d in data}
+
+
 def read_data(query):
     '''
         Search for and return a query in the DB otherwise raise Exception.
@@ -164,3 +186,7 @@ def read_data(query):
         raise KeyError('{} not found in database'.format(query))
     else:
         return data[2]
+
+def increment_hit(query):
+    with db:
+        db.increment_hit(query)

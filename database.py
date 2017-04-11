@@ -43,9 +43,16 @@ class DB_Interface:
         self.db.commit()
         return rc
 
+    def increment_hit(self, query):
+        sql = 'update Micros set hits = hits + 1 where micro_link = %s'
+        rc = self.cur.execute(sql, (query,))
+        self.db.commit()
+        return rc
+
     def insert(self, micro, url, creation, expiration, public):
-        sql = 'insert into Micros (id, micro_link, real_link, creation, expiration, public)'\
-              ' values (%s, %s, %s, %s, %s, %s)'
+        sql = 'insert into Micros (' \
+              'id, micro_link, real_link, creation, expiration, public) ' \
+              'values (%s, %s, %s, %s, %s, %s)'
 
         id = SHA256.new(url.encode('latin1')).hexdigest()
         rc = self.cur.execute(sql, (id, micro, url, creation, expiration, public))
@@ -60,8 +67,16 @@ class DB_Interface:
     def get_top(self):
         sql = '''select *
                  from Micros
-                 where public = 1
+                 where public = 1 and hits >= 3
                  order by hits desc'''
+        self.cur.execute(sql)
+        return self.cur.fetchall()
+
+    def get_recent(self):
+        sql = '''select *
+                 from Micros
+                 where public = 1
+                 order by creation desc'''
         self.cur.execute(sql)
         return self.cur.fetchall()
 

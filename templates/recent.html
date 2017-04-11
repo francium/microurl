@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="jumbotron">
+    <div>
+      {% for micro, url in registry.items() %}
+      <p>
+        <a href="/{{ micro }}">{{ micro }}</a> - {{ url }}
+      </p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
