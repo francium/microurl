@@ -4,13 +4,14 @@ import string
 import sys
 import time
 
-from validators import url as urlcheck
-from validators import domain as domaincheck
-from validators import ipv4 as ipcheck
 from flask import abort, Flask, g, redirect, render_template, request, url_for,\
                   send_from_directory
+from validators import domain as domaincheck
+from validators import ipv4 as ipcheck
+from validators import url as urlcheck
 
 import database
+import database_cleaner
 import random_micro
 
 
@@ -187,6 +188,19 @@ def read_data(query):
     else:
         return data[2]
 
+
 def increment_hit(query):
     with db:
         db.increment_hit(query)
+
+
+def remove_expired():
+    '''
+        Clear expired links from databased.
+    '''
+    print('Clearing expired links.')
+    with db:
+        db.clear_expired()
+
+
+database_cleaner.start(db, remove_expired)

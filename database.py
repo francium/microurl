@@ -1,6 +1,7 @@
 import hashlib
 import json
 import sys
+import time
 
 from Crypto.Hash import SHA256
 import MySQLdb as sqldb
@@ -40,6 +41,13 @@ class DB_Interface:
     def clear(self):
         sql = 'delete from Micros'
         rc = self.cur.execute(sql)
+        self.db.commit()
+        return rc
+
+    def clear_expired(self):
+        sql = 'delete from Micros where expiration >= %s'
+        tnow = int(time.time())
+        rc = self.cur.execute(sql, (tnow,))
         self.db.commit()
         return rc
 
