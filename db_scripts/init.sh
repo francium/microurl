@@ -1,1 +1,1 @@
-mysql -u root -p < init.sql
+mysql -u root -p$MYSQL_ROOT_PASSWORD < init.sql
