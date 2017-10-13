@@ -19,10 +19,10 @@
 
     fetch(request)
       .then(function(response) {
-        return response.text();
-      }).then(function(text) {
+        return response.json();
+      }).then(function(json) {
         toggleLoader(displayLoader);
-        showMicroResponse(text);
+        showMicroResponse(json['micro']);
     });
   });
 
