@@ -9,6 +9,6 @@ def worker():
         time.sleep(schedule.idle_seconds())
 
 
-def start(database, job):
+def start(job):
     schedule.every(30).minutes.do(job)
     threading.Thread(target=worker).start()
