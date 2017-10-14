@@ -1,11 +1,9 @@
 import os
 import json
-import random
-import string
 import sys
 import time
 
-from flask import abort, Flask, g, redirect, render_template, request, url_for,\
+from flask import abort, Flask, redirect, render_template, request,\
                   send_from_directory
 from validators import domain as domaincheck
 from validators import ipv4 as ipcheck
