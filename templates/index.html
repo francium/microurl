@@ -7,9 +7,18 @@
 {% block content %}
   <div class="jumbotron">
     <form id="make-micro-form">
-      <input type="checkbox" name="public">
-      <input name="url">
-      <button id="make-micro-submit">make &micro</button>
+      <div class="row">
+        <div class="form-group">
+          <input id="url" name="url">
+          <button id="make-micro-submit">make &micro</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group text-right" style="width: 93%;">
+          <input type="checkbox" id="public" name="public">
+          <label for="public">Make public</label>
+        </div>
+      </div>
     </form>
 
     <div class="center-text">
