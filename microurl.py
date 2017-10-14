@@ -59,10 +59,14 @@ def route_generate_micro():
         Generate micro POST request handler.
     '''
     data = parse_form_data(request.form)
-    micro = generate_micro()
+    url = data['url'].strip()
+    micro = get_micro(url)
 
-    # Store the micro and URL in the database.
-    register_micro(micro, data['url'], data['public'])
+    if not micro:
+        micro = generate_micro()
+
+        # Store the micro and URL in the database.
+        register_micro(micro, url, data['public'])
 
     return json.dumps({"status": "OK", "micro": micro, "error": ""})
 
@@ -138,6 +142,16 @@ def lookup_micro(micro):
         return data
     except KeyError as e:
         raise e
+
+def get_micro(url):
+    '''
+        Check if the url already exists.
+    '''
+    with db:
+        result = db.get_one(url)
+        if result:
+            return result[0]
+        return None
 
 
 def register_micro(micro, url, public):
