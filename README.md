@@ -1,60 +1,62 @@
 [![Code Climate](https://codeclimate.com/github/francium/microURL/badges/gpa.svg)](https://codeclimate.com/github/francium/microURL)
 
-Requirements
-===
+# micro url
 
-System
----
-- python3
-- python3-dev
-- libmysqlclient-dev
-- mariadb (mysql should be supported as well)
+URL shortener written in Python + Flask
 
-Pip
----
-- see requirements.txt
+Requirements: Python 3, Pip and mariadb (mysql should be supported as well)
 
-Setup
-===
-Note these are \*nix instructions, usage on Windows may be different. Using a
-\*nix system is *highly* recommended to avoid any undue frustration.
+## Installation
 
-Install requirements
----
+1. Make sure [Python 3.6+](https://www.python.org/downloads/) is installed.
+2. Install [virtualenv](https://virtualenv.pypa.io/en/stable/).
 
-Install system requirements
+```
+$ sudo pip install virtualenv
+```
 
-    $ apt-get install python3 python3-dev libmysqlclient-dev mariadb
+3. Create a virtual environment venv and specify the Python version to use.
 
-Setup mariadb
+```
+$ virtualenv venv -p python3
+$ source venv/bin/activate
+```
 
-    $ echo "you're on your own here for now."
+4. Install requirements.
 
-Install pip requirements
+```
+$ pip install -r requirements.txt
+```
 
-    $ pip insall -r requirements.txt
+## Database Configuration
 
 Create `.config.json`
----
 
-    {
-        "user": "mysql_user",
-        "password": "mysql_user's_password",
-        "host": "mysql_server_ip",
-        "db_name": "mysql_database"
-    }
+```
+{
+    "user": "mysql_user",
+    "password": "mysql_user's_password",
+    "host": "mysql_server_ip",
+    "db_name": "mysql_database"
+}
+```
 
 Create table
----
 
-    $ python3 database.py create
+```
+$ python3 database.py create
+```
 
-Start
----
+## Running
+
 Debug
 
-    $ make debug    # Run with flask debugger
+```
+$ make debug    # Run with flask debugger
+```
 
 Run as application
 
-    $ make run      # Run application
+```
+$ make run      # Run application
+```
