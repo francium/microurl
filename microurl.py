@@ -1,4 +1,5 @@
 import os
+import json
 import sys
 import time
 
@@ -61,7 +62,7 @@ def route_generate_micro():
     # Store the micro and URL in the database.
     register_micro(micro, data['url'], data['public'])
 
-    return micro
+    return json.dumps({"status": "OK", "micro": micro, "error": ""})
 
 
 @app.route('/<micro>')
