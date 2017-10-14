@@ -30,6 +30,8 @@ $ pip install -r requirements.txt
 
 ## Database Configuration
 
+MariaDB or MySQL is required for the rest of the steps.
+
 Create `.config.json`
 
 ```
