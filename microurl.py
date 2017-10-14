@@ -202,4 +202,4 @@ def remove_expired():
         db.clear_expired()
 
 
-database_cleaner.start(db, remove_expired)
+database_cleaner.start(remove_expired)
