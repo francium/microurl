@@ -148,7 +148,7 @@ def get_micro(url):
         Check if the url already exists.
     '''
     with db:
-        result = db.get_one(url)
+        result = db.db.query_real_link(url)
         if result:
             return result[0]
         return None
@@ -196,7 +196,7 @@ def read_data(query):
         Search for and return a query in the DB otherwise raise Exception.
     '''
     with db:
-        data = db.query(query)
+        data = db.query_micro_link(query)
 
     if not(data):
         raise KeyError('{} not found in database'.format(query))
