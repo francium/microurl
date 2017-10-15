@@ -88,12 +88,12 @@ class DB_Interface:
         self.cur.execute(sql)
         return self.cur.fetchall()
 
-    def get_one(self, url):
+    def query_real_link(self, url):
         sql = 'select micro_link from Micros where real_link = %s'
         self.cur.execute(sql, (url,))
         return self.cur.fetchone()
 
-    def query(self, value):
+    def query_micro_link(self, value):
         sql = 'select * from Micros where micro_link = %s'
         self.cur.execute(sql, (value,))
         return self.cur.fetchone()
