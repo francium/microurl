@@ -127,7 +127,7 @@ def generate_micro():
     '''
         Generates a random MICRO_LEN length ASCII code.
     '''
-    return random_micro.random(3)
+    return random_micro.random_words(3)
 
 
 def lookup_micro(micro):

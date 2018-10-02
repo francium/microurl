@@ -1,11 +1,9 @@
+import random
+import string
 import requests
 
 
-RANDOM_WORD_API_URL = 'http://setgetgo.com/randomword/get.php'
-RANDOM_WORD_API_PARAMS = {'len': 5}
-
-
-def random(length):
+def random_words(length):
     '''
         Return a string of random words concatenated together.
     '''
@@ -15,8 +13,8 @@ def random(length):
     return ''.join(words)
 
 
-def get_word(url=RANDOM_WORD_API_URL, params=RANDOM_WORD_API_PARAMS):
+def get_word(word_length=5):
     '''
         Get a random word.
     '''
-    return requests.get(url, params=params).text
+    return ''.join([random.choice(string.ascii_letters) for _ in range(word_length)])
