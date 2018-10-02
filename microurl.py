@@ -146,7 +146,7 @@ def get_micro(url):
         Check if the url already exists.
     '''
     with db:
-        result = db.db.query_real_link(url)
+        result = db.query_real_link(url)
         if result:
             return result[0]
         return None
