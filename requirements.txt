@@ -1,7 +1,6 @@
 flask==0.12
 gevent
 gunicorn
-requests
 validators
 mysqlclient
 pycrypto
