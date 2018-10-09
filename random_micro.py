@@ -1,6 +1,5 @@
 import random
 import string
-import requests
 
 
 def random_words(length):
